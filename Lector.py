@@ -146,7 +146,7 @@ class Lector(object):
         data = self.get_data() # Obtencion de la data
 
         if self.forma == '.json':
-            df = pd.read_json(data)
+            df = pd.DataFrame(data)
         elif self.forma == 'db':
             df = pd.DataFrame(data[1], columns=data[0])
         else:
@@ -201,4 +201,4 @@ if __name__ == "__main__":
     data_2 = lector_json_2.to_Dataframe()
     print(data_2,"\n\n\n")
 
-    lector_json_2.crear_tabla()
+    lector_json.crear_tabla(name="tabla_datos.png")
