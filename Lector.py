@@ -64,7 +64,7 @@ class Lector(object):
             raise Exception(f'Error al conectar a la base de datos: {e}')
         
     @staticmethod
-    def crear_tabla(df : pd.DataFrame, formato : str = 'tabule'):
+    def crear_tabla(df : pd.DataFrame, formato : str = 'tabule', showindex : bool = True) -> str:
         """
         Docstring of crear_tabla:
         -------------------------
@@ -80,7 +80,7 @@ class Lector(object):
         if formato == 'flet':
             pass
         elif formato == 'tabule':
-            tabla = tabulate(df, headers='keys', tablefmt='rounded_outline')
+            tabla = tabulate(df, headers='keys', tablefmt='rounded_outline', showindex=showindex)
             return tabla
         else:
             raise Exception('No se ha especificado un formato de tabla válido')
@@ -213,7 +213,7 @@ if __name__ == "__main__":
 
     config = {
         "host": 'ep-square-rice-aie5emz3-pooler.c-4.us-east-1.aws.neon.tech',
-        "database": 'neondb',
+        "database": 'neondb', 
         "user": 'neondb_owner',
         "password": 'npg_ESTpNfPh6y3a',
         "port": '5432',
@@ -227,5 +227,5 @@ if __name__ == "__main__":
     lector_json_2.to_image(name="tabla_datos.png")
 
     print("\n\n\n")
-    hola = lector_json_2.crear_tabla(data_2, formato='tabule')
+    hola = lector_json_2.crear_tabla(data_2, formato='tabule', showindex=True)
     print(hola)
