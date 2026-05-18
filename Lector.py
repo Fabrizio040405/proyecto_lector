@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import psycopg2
 import matplotlib.pyplot as plt
+from tabulate import tabulate
 
 class Lector(object):
     """
@@ -61,7 +62,29 @@ class Lector(object):
         except Exception as e:
 
             raise Exception(f'Error al conectar a la base de datos: {e}')
+        
+    @staticmethod
+    def crear_tabla(df : pd.DataFrame, formato : str = 'tabule'):
+        """
+        Docstring of crear_tabla:
+        -------------------------
+        Crea una tabla en la base de datos a partir de un DataFrame de Pandas.
+        
+        Opciones de uso:
 
+        - formatos:
+
+            > flet: Crea una tabla utilizando la biblioteca Flet.
+            > tabule: Crea una tabla utilizando la biblioteca tabule.    
+        """
+        if formato == 'flet':
+            pass
+        elif formato == 'tabule':
+            tabla = tabulate(df, headers='keys', tablefmt='rounded_outline')
+            return tabla
+        else:
+            raise Exception('No se ha especificado un formato de tabla válido')
+    
     @classmethod
     def from_db(cls, **kwargs):
         """
@@ -154,9 +177,9 @@ class Lector(object):
 
         return df
     
-    def crear_tabla(self, **kwargs) -> plt.table:
+    def to_image(self, **kwargs) -> plt.table:
         """
-        Docstring of crear_tabla:
+        Docstring of to_image:
         -------------------------
         Crea una tabla a partir de un DataFrame de Pandas.
         Parámetros:
@@ -184,9 +207,9 @@ class Lector(object):
       
 
 if __name__ == "__main__":
-    lector_json = Lector.from_json("listado.json")
-    data = lector_json.get_data()
-    print(data,"\n\n\n")
+    #lector_json = Lector.from_json("listado.json")
+    #data = lector_json.get_data()
+    #print(data,"\n\n\n")
 
     config = {
         "host": 'ep-square-rice-aie5emz3-pooler.c-4.us-east-1.aws.neon.tech',
@@ -201,4 +224,8 @@ if __name__ == "__main__":
     data_2 = lector_json_2.to_Dataframe()
     print(data_2,"\n\n\n")
 
-    lector_json.crear_tabla(name="tabla_datos.png")
+    lector_json_2.to_image(name="tabla_datos.png")
+
+    print("\n\n\n")
+    hola = lector_json_2.crear_tabla(data_2, formato='tabule')
+    print(hola)
