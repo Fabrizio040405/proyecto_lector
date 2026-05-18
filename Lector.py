@@ -86,7 +86,7 @@ class Lector(object):
             raise Exception('No se ha especificado un formato de tabla válido')
     
     @classmethod
-    def from_db(cls, **kwargs):
+    def from_db(cls, config_ : dict):
         """
         DocString of from_db:
         -------------------------
@@ -98,13 +98,13 @@ class Lector(object):
         retorna una conexión a la base de datos.
         """
         
-        try: 
+        try:
 
-            connection = cls.conectar_db(**kwargs)
+            connection = cls.conectar_db(**config_)
 
             config = {
                 'forma' : 'db',
-                'table' : kwargs["table"]
+                'table' : config_["table"]
             }
 
             return cls(connection, **config)
@@ -220,7 +220,7 @@ if __name__ == "__main__":
         "table": 'registro'
     }
 
-    lector_json_2 = Lector.from_db(**config)
+    lector_json_2 = Lector.from_db(config)
     data_2 = lector_json_2.to_Dataframe()
     print(data_2,"\n\n\n")
 
